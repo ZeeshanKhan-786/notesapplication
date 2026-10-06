@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:notesapp/model/note_model.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:notesapp/model/note_model.dart';
 import 'package:notesapp/services/database.dart';
 import 'package:intl/intl.dart';
 
@@ -17,12 +16,6 @@ class NoteProvider extends ChangeNotifier {
   String? attachmentPath;
   String? attachmentName;
   NoteModel? editingNote;
-
-  void setAttachment({required String path, required String name}){
-    attachmentPath = path;
-    attachmentName = name;
-    notifyListeners();
-  }
 
   Future<void> pickAttachment() async{
     final result = await FilePicker.platform.pickFiles(
