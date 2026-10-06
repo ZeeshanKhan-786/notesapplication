@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ChangeNotifierProvider(
-        create: (_) => NoteProvider(),
+        create: (_) => NoteProvider()..loadNotes(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Notes App',

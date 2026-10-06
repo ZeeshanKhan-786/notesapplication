@@ -9,19 +9,24 @@ class AddNoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         title: Text(
             context.watch<NoteProvider>().editingNote == null
             ?'New Note'
             : 'edit Note'
+                ,style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //title Section
-              Text('title',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+
+              Text('Title',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
               SizedBox(height: 8),
               TextField(
                 controller: context.read<NoteProvider>().titleController,
@@ -49,17 +54,18 @@ class AddNoteScreen extends StatelessWidget {
               //Attachment Section
               Text('Attachment',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
               SizedBox(height: 8,),
-              OutlinedButton.icon(
-                onPressed: (){
-                  context.read<NoteProvider>().pickAttachment();
-                },
-                icon: Icon(Icons.attach_file),
-                label: Text('Attach Document'),
-              ),
+
+
               Consumer<NoteProvider>(
                   builder: (context,provider,child) {
                     if(provider.attachmentName == null){
-                      return SizedBox.shrink();
+                      return OutlinedButton.icon(
+                        onPressed: (){
+                          context.read<NoteProvider>().pickAttachment();
+                        },
+                        icon: Icon(Icons.attach_file),
+                        label: Text('Attach Document'),
+                      );
                     }
                     return Container(
                       padding: EdgeInsets.all(12),
@@ -90,6 +96,16 @@ class AddNoteScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue.shade500,
+                    foregroundColor: Colors.white,
+                    elevation: 5,
+                    shadowColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                    )
+                  ),
+
                   onPressed: () async {
                     print('save button pressed');
                     final provider = context.read<NoteProvider>();
@@ -122,7 +138,7 @@ class AddNoteScreen extends StatelessWidget {
                       Navigator.pop(context);
                     }
 
-                  }, child: Text('Save Note'),
+                  }, child: Text('Save Note',style: TextStyle(fontSize: 18),),
                 ),
               )
 

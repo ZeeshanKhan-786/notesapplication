@@ -9,11 +9,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<NoteProvider>();
-    if (provider.notes.isEmpty) {}
+   // if (provider.notes.isEmpty) {}
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notes'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        title: Text('Notes', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert,size: 28,))],
         centerTitle: true,
       ),
       body: Padding(
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none,
+
                 ),
               ),
             ),
@@ -39,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                   ? Center(
                       child: Text(
                         'No notes yet',
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                        style: TextStyle(fontSize: 28, color: Colors.grey),
                       ),
                     )
                   : ListView.builder(
@@ -69,27 +71,27 @@ class HomeScreen extends StatelessWidget {
                             );
 
                           },
-                          onDelete: (){
-                            showDialog(context: context, builder: (dialogcontent){
+                          onDelete: () {
+                            print('delete button pressed');
+                            showDialog(context: context, builder: (dialogContent){
                               return AlertDialog(
                                 title: Text('Delete Note'),
                                 content: Text('Are you sure you want to delete this note?'),
                                 actions: [
                                   TextButton(onPressed: (){
-                                    Navigator.pop(dialogcontent);
+                                    Navigator.pop(dialogContent);
                                   }, child: Text('Cancel')),
                                   TextButton(onPressed: (){
-                                    Navigator.pop(dialogcontent);
+                                    print('delete presses...');
                                     context.read<NoteProvider>().deleteNote(note);
+                                    Navigator.pop(dialogContent);
                                   }, child: Text('Delete')),
                                 ],
                               );
                             });
-                            context.read<NoteProvider>().deleteNote(note);
                           },
                           onEdit:(){
                             final provider = context.read<NoteProvider>();
-
                             provider.startEditing(note);
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNoteScreen()));
                           }

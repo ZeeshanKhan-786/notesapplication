@@ -29,12 +29,12 @@ class NoteModelAdapter extends TypeAdapter<NoteModel>{
     final fields = reader.readMap();
 
     return NoteModel(
-        title: fields['title']as String,
-        content: fields['content']as String,
-        date: fields['date']as String,
-        time: fields['time']as String,
-        attachmentPath: fields['attachmentPath']as String,
-        attachmentName: fields['attachmentName']as String,
+        title: fields['title']as String? ?? '',
+        content: fields['content']as String? ?? '',
+        date: fields['date']as String? ?? '',
+        time: fields['time']as String? ?? '',
+        attachmentPath: fields['attachmentPath']as String?,
+        attachmentName: fields['attachmentName']as String?,
     );
   }
 

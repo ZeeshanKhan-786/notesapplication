@@ -92,10 +92,11 @@ class NoteProvider extends ChangeNotifier {
 
     final now = DateTime.now();
 
+
     final note = NoteModel(
         title: title,
         content: content,
-        date: DateFormat('dd mmm yyyy').format(now),
+        date: DateFormat('dd MMM yyyy').format(now),
         time: DateFormat('hh:mm a').format(now),
         attachmentPath: attachmentPath,
         attachmentName: attachmentName,
