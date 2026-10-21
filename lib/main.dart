@@ -1,26 +1,40 @@
-import 'package:flutter/material.dart';
-import 'package:notesapp/screens/home_screen.dart';
-import 'package:provider/provider.dart';
-import 'providers/note_provider.dart';
-import 'services/database.dart';
 
-Future<void> main() async{
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
+import 'providers/note_provider.dart';
+import 'providers/auth_provider.dart';
+import 'services/database.dart';
+import 'screens/login_screen.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NoteDatabase.init();
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => NoteProvider()..loadNotes(),
-      child: MyApp(),
-    ),
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await NoteDatabase.init();
+
+  runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return ChangeNotifierProvider(
-        create: (_) => NoteProvider()..loadNotes(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => NoteProvider()..loadNotes(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Notes App',
@@ -28,9 +42,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorSchemeSeed: Colors.indigo,
         ),
-        home: HomeScreen(),
+        home: const LoginScreen(),
       ),
     );
-
   }
 }

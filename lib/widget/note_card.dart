@@ -60,10 +60,12 @@ class NoteCard extends StatelessWidget {
                       }
                     },
                     itemBuilder: (context) => [
-                      const PopupMenuItem(value: 'edit', child: Text('Edit')),
                       const PopupMenuItem(
-                        value: 'delete',
-                        child: Text('Delete'),
+                          value: 'edit',
+                          child: Text('Edit')),
+                      const PopupMenuItem(
+                          value: 'delete',
+                          child: Text('Delete'),
                       ),
                     ],
                   ),
@@ -75,7 +77,12 @@ class NoteCard extends StatelessWidget {
                 children: [
                   Icon(Icons.calendar_today_outlined, size: 15),
                   SizedBox(width: 5),
-                  Expanded(child: Text('$date , $time',overflow: TextOverflow.ellipsis,)),
+                  Expanded(
+                    child: Text(
+                      '$date',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                   Spacer(),
                   if (hasAttachment) ...[
                     Icon(Icons.attach_file, size: 17),

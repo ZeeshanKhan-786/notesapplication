@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/providers/note_provider.dart';
 import 'package:notesapp/screens/add_note_screen.dart';
+import 'package:notesapp/widget/delete_popup.dart';
 import 'package:notesapp/widget/note_card.dart';
 import 'package:provider/provider.dart';
 import 'package:notesapp/screens/note_detail_screen.dart';
@@ -9,14 +10,19 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<NoteProvider>();
-   // if (provider.notes.isEmpty) {}
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        title: Text('Notes', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+        title: Row(
+          children: [
+            Image.asset('assets/app_logo.png', width: 35,height: 35,fit: BoxFit.contain,),
+            SizedBox(width: 10,),
+            Text('Notes', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+          ],
+        ),
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert,size: 28,))],
-        centerTitle: true,
+        centerTitle: false,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -66,28 +72,34 @@ class HomeScreen extends StatelessWidget {
                                   time: note.time,
                                   hasAttachment: note.attachmentName != null,
                                   attachmentName: note.attachmentName,
+                                  index: index,
+                                  attachmentBase64: note.attachmentBase64,
                                 ),
                               ),
                             );
 
                           },
-                          onDelete: () {
-                            print('delete button pressed');
-                            showDialog(context: context, builder: (dialogContent){
-                              return AlertDialog(
-                                title: Text('Delete Note'),
-                                content: Text('Are you sure you want to delete this note?'),
-                                actions: [
-                                  TextButton(onPressed: (){
-                                    Navigator.pop(dialogContent);
-                                  }, child: Text('Cancel')),
-                                  TextButton(onPressed: (){
-                                    print('delete presses...');
-                                    context.read<NoteProvider>().deleteNote(note);
-                                    Navigator.pop(dialogContent);
-                                  }, child: Text('Delete')),
-                                ],
-                              );
+                          // onDelete: () {
+                          //   showDialog(context: context, builder: (dialogContent){
+                          //     return AlertDialog(
+                          //       title: Text('Delete Note'),
+                          //       content: Text('Are you sure you want to delete this note?'),
+                          //       actions: [
+                          //         TextButton(onPressed: (){
+                          //           Navigator.pop(dialogContent);
+                          //         }, child: Text('Cancel')),
+                          //         TextButton(onPressed: (){
+                          //           context.read<NoteProvider>().deleteNote(note);
+                          //           Navigator.pop(dialogContent);
+                          //         }, child: Text('Delete')),
+                          //       ],
+                          //     );
+                          //   });
+                          // },
+
+                          onDelete: (){
+                            showDialog(context: context, builder: (dialogContext){
+                              return DeletePopup(note:note);
                             });
                           },
                           onEdit:(){

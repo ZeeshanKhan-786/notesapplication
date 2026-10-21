@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/providers/note_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:notesapp/providers/note_provider.dart';
 
 class AddNoteScreen extends StatelessWidget {
 
@@ -129,7 +128,8 @@ class AddNoteScreen extends StatelessWidget {
                     print('going to save new note');
                     if(provider.editingNote != null){
                       await provider.updateNote(provider.editingNote!);
-                    }else{
+                    }
+                    else{
                       await provider.saveNote();
                     }
 
